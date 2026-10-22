@@ -2,21 +2,22 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Ex. No. 10 - Node.js Server | URK24CS1059</title>
+<title>Science Fair Project - Node.js Server | URK24CS1059</title>
 <style>
-body{font-family:Arial,sans-serif;background:#f4f6f9;margin:0;padding:24px;color:#222}
+body{font-family:Arial,sans-serif;background:linear-gradient(135deg,#0d1b3e,#1b4f72);margin:0;padding:24px;color:#fff;min-height:100vh}
 .wrap{max-width:900px;margin:auto}
-.card{background:#fff;padding:20px 28px;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,.1);margin-bottom:20px}
-h1{color:#2e7d32} pre{background:#1e1e1e;color:#d4d4d4;padding:16px;border-radius:6px;overflow-x:auto;font-size:13px}
-button{padding:8px 16px;margin-right:8px;border:0;border-radius:4px;background:#2e7d32;color:#fff;cursor:pointer}
-#out{border:1px solid #ccc;border-radius:6px;padding:12px 20px;margin-top:12px}
+.card{background:rgba(255,255,255,.08);border:1px solid #4fc3f7;padding:20px 28px;border-radius:12px;margin-bottom:20px}
+h1,h2{color:#4fc3f7} code{color:#ffd54f}
+pre{background:#0b1020;color:#d4d4d4;padding:16px;border-radius:6px;overflow-x:auto;font-size:13px}
+button{padding:8px 16px;margin:4px 8px 4px 0;border:0;border-radius:4px;background:#ffd54f;color:#0d1b3e;font-weight:bold;cursor:pointer}
+#out{background:rgba(0,0,0,.25);border-radius:8px;padding:12px 20px;margin-top:12px}
 </style>
 </head>
 <body><div class="wrap">
 <div class="card">
-<h1>Ex. No. 10 &ndash; Developing Server-Side Application Using Node.js</h1>
-<p><b>Register No:</b> URK24CS1059 &nbsp; | &nbsp; <b>Course:</b> 23CS2049 - Web Technology Lab</p>
-<p>A basic HTTP server built with the built-in <code>http</code> module of Node.js. It handles client requests and returns HTML responses for the routes <code>/</code>, <code>/home</code> and <code>/about</code> (and a 404 page for anything else).</p>
+<h1>&#128300; Science Fair Project &ndash; Node.js Server</h1>
+<p><b>Ex. No. 10:</b> Developing Server-Side Application Using Node.js<br><b>Register No:</b> URK24CS1059 &nbsp;|&nbsp; <b>Course:</b> 23CS2049 - Web Technology Lab</p>
+<p>An HTTP server built with the built-in <code>http</code> module of Node.js for a Science Fair website. It serves <code>/</code>, <code>/home</code> (projects) and <code>/about</code>, with a 404 page for anything else.</p>
 <p><b>Run locally:</b> <code>node server.js</code> &rarr; open <code>http://localhost:3000</code></p>
 </div>
 <div class="card">
@@ -36,19 +37,22 @@ function page(title, heading, message, req) {
         &lt;head&gt;
             &lt;title&gt;${title}&lt;/title&gt;
             &lt;style&gt;
-                body { font-family: Arial, sans-serif; background: #f4f6f9; margin: 40px; }
-                .card { background: #fff; padding: 24px 32px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); max-width: 600px; }
-                h1 { color: #2e7d32; }
-                nav a { margin-right: 12px; }
+                body { font-family: Arial, sans-serif; background: linear-gradient(135deg, #0d1b3e, #1b4f72); margin: 0; padding: 40px; color: #fff; min-height: 100vh; }
+                .card { background: rgba(255,255,255,0.08); border: 1px solid #4fc3f7; padding: 24px 32px; border-radius: 12px; max-width: 640px; }
+                h1 { color: #4fc3f7; }
+                nav a { color: #ffd54f; margin-right: 14px; text-decoration: none; font-weight: bold; }
+                .req { background: rgba(0,0,0,0.3); padding: 4px 14px; border-radius: 6px; font-family: monospace; }
             &lt;/style&gt;
         &lt;/head&gt;
         &lt;body&gt;
             &lt;div class=&quot;card&quot;&gt;
-                &lt;nav&gt;&lt;a href=&quot;/&quot;&gt;Home&lt;/a&gt;&lt;a href=&quot;/home&quot;&gt;/home&lt;/a&gt;&lt;a href=&quot;/about&quot;&gt;/about&lt;/a&gt;&lt;/nav&gt;
+                &lt;nav&gt;&lt;a href=&quot;/&quot;&gt;&amp;#128300; Home&lt;/a&gt;&lt;a href=&quot;/home&quot;&gt;Projects&lt;/a&gt;&lt;a href=&quot;/about&quot;&gt;About&lt;/a&gt;&lt;/nav&gt;
                 &lt;h1&gt;${heading}&lt;/h1&gt;
                 &lt;p&gt;${message}&lt;/p&gt;
-                &lt;p&gt;Request URL: ${req.url}&lt;/p&gt;
-                &lt;p&gt;Request Method: ${req.method}&lt;/p&gt;
+                &lt;div class=&quot;req&quot;&gt;
+                    &lt;p&gt;Request URL: ${req.url}&lt;/p&gt;
+                    &lt;p&gt;Request Method: ${req.method}&lt;/p&gt;
+                &lt;/div&gt;
             &lt;/div&gt;
         &lt;/body&gt;
         &lt;/html&gt;
@@ -58,27 +62,27 @@ function page(title, heading, message, req) {
 const server = http.createServer((req, res) =&gt; {
     if (req.url === &#x27;/&#x27;) {
         res.writeHead(200, { &#x27;Content-Type&#x27;: &#x27;text/html&#x27; });
-        res.end(page(&#x27;Node.js Server&#x27;, &#x27;Welcome to Node.js!&#x27;, &#x27;This is a server-side application.&#x27;, req));
+        res.end(page(&#x27;Science Fair Project&#x27;, &#x27;Welcome to the Science Fair 2026!&#x27;, &#x27;This is a server-side application built with Node.js for the Science Fair Project.&#x27;, req));
     } else if (req.url === &#x27;/home&#x27;) {
         res.writeHead(200, { &#x27;Content-Type&#x27;: &#x27;text/html&#x27; });
-        res.end(page(&#x27;Home&#x27;, &#x27;Home Page&#x27;, &#x27;Welcome to the Home page served by Node.js.&#x27;, req));
+        res.end(page(&#x27;Projects&#x27;, &#x27;Featured Projects&#x27;, &#x27;Solar-Powered Water Purifier &amp;bull; Smart Plant Watering System &amp;bull; Volcano Eruption Model &amp;bull; Air Quality Monitor&#x27;, req));
     } else if (req.url === &#x27;/about&#x27;) {
         res.writeHead(200, { &#x27;Content-Type&#x27;: &#x27;text/html&#x27; });
-        res.end(page(&#x27;About&#x27;, &#x27;About Page&#x27;, &#x27;This application was developed using the built-in http module of Node.js. (URK24CS1059)&#x27;, req));
+        res.end(page(&#x27;About&#x27;, &#x27;About the Science Fair&#x27;, &#x27;Students present innovative science projects to judges and visitors. This site is served using the built-in http module of Node.js. (URK24CS1059)&#x27;, req));
     } else {
         res.writeHead(404, { &#x27;Content-Type&#x27;: &#x27;text/html&#x27; });
-        res.end(page(&#x27;404&#x27;, &#x27;404 - Page Not Found&#x27;, &#x27;The requested page does not exist.&#x27;, req));
+        res.end(page(&#x27;404&#x27;, &#x27;404 - Experiment Not Found&#x27;, &#x27;The requested page does not exist at the Science Fair.&#x27;, req));
     }
 });
 
 server.listen(PORT, () =&gt; {
-    console.log(`Server running at http://localhost:${PORT}`);
+    console.log(`Science Fair server running at http://localhost:${PORT}`);
 });
 </pre></div>
 </div>
 <script>
-const routes={'/':['Welcome to Node.js!','This is a server-side application.'],'/home':['Home Page','Welcome to the Home page served by Node.js.'],'/about':['About Page','This application was developed using the built-in http module of Node.js. (URK24CS1059)']};
-function show(u){const r=routes[u]||['404 - Page Not Found','The requested page does not exist.'];
+const routes={'/':['Welcome to the Science Fair 2026!','This is a server-side application built with Node.js for the Science Fair Project.'],'/home':['Featured Projects','Solar-Powered Water Purifier &bull; Smart Plant Watering System &bull; Volcano Eruption Model &bull; Air Quality Monitor'],'/about':['About the Science Fair','Students present innovative science projects to judges and visitors. This site is served using the built-in http module of Node.js. (URK24CS1059)']};
+function show(u){const r=routes[u]||['404 - Experiment Not Found','The requested page does not exist at the Science Fair.'];
 document.getElementById('out').innerHTML='<h1>'+r[0]+'</h1><p>'+r[1]+'</p><p>Request URL: '+u+'</p><p>Request Method: GET</p><p><i>Status: '+(routes[u]?'200 OK':'404 Not Found')+'</i></p>';}
 show('/');
 </script>
