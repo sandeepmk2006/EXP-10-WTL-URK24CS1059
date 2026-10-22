@@ -1,0 +1,9 @@
+{
+  "name": "nodeserverapp",
+  "version": "1.0.0",
+  "description": "Ex. No. 10 - Developing Server-Side Application Using Node.js",
+  "main": "server.js",
+  "scripts": { "start": "node server.js" },
+  "author": "URK24CS1059",
+  "license": "MIT"
+}

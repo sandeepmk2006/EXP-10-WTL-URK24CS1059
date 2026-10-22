@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ex. No. 10 - Node.js Server | URK24CS1059</title>
+<style>
+body{font-family:Arial,sans-serif;background:#f4f6f9;margin:0;padding:24px;color:#222}
+.wrap{max-width:900px;margin:auto}
+.card{background:#fff;padding:20px 28px;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,.1);margin-bottom:20px}
+h1{color:#2e7d32} pre{background:#1e1e1e;color:#d4d4d4;padding:16px;border-radius:6px;overflow-x:auto;font-size:13px}
+button{padding:8px 16px;margin-right:8px;border:0;border-radius:4px;background:#2e7d32;color:#fff;cursor:pointer}
+#out{border:1px solid #ccc;border-radius:6px;padding:12px 20px;margin-top:12px}
+</style>
+</head>
+<body><div class="wrap">
+<div class="card">
+<h1>Ex. No. 10 &ndash; Developing Server-Side Application Using Node.js</h1>
+<p><b>Register No:</b> URK24CS1059 &nbsp; | &nbsp; <b>Course:</b> 23CS2049 - Web Technology Lab</p>
+<p>A basic HTTP server built with the built-in <code>http</code> module of Node.js. It handles client requests and returns HTML responses for the routes <code>/</code>, <code>/home</code> and <code>/about</code> (and a 404 page for anything else).</p>
+<p><b>Run locally:</b> <code>node server.js</code> &rarr; open <code>http://localhost:3000</code></p>
+</div>
+<div class="card">
+<h2>Response Preview</h2>
+<p>GitHub Pages hosts static files only, so this preview reproduces what the Node.js server returns for each route.</p>
+<button onclick="show('/')">GET /</button><button onclick="show('/home')">GET /home</button><button onclick="show('/about')">GET /about</button><button onclick="show('/xyz')">GET /xyz</button>
+<div id="out"></div>
+</div>
+<div class="card"><h2>server.js</h2><pre>const http = require(&#x27;http&#x27;);
+
+const PORT = process.env.PORT || 3000;
+
+function page(title, heading, message, req) {
+    return `
+        &lt;!DOCTYPE html&gt;
+        &lt;html&gt;
+        &lt;head&gt;
+            &lt;title&gt;${title}&lt;/title&gt;
+            &lt;style&gt;
+                body { font-family: Arial, sans-serif; background: #f4f6f9; margin: 40px; }
+                .card { background: #fff; padding: 24px 32px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); max-width: 600px; }
+                h1 { color: #2e7d32; }
+                nav a { margin-right: 12px; }
+            &lt;/style&gt;
+        &lt;/head&gt;
+        &lt;body&gt;
+            &lt;div class=&quot;card&quot;&gt;
+                &lt;nav&gt;&lt;a href=&quot;/&quot;&gt;Home&lt;/a&gt;&lt;a href=&quot;/home&quot;&gt;/home&lt;/a&gt;&lt;a href=&quot;/about&quot;&gt;/about&lt;/a&gt;&lt;/nav&gt;
+                &lt;h1&gt;${heading}&lt;/h1&gt;
+                &lt;p&gt;${message}&lt;/p&gt;
+                &lt;p&gt;Request URL: ${req.url}&lt;/p&gt;
+                &lt;p&gt;Request Method: ${req.method}&lt;/p&gt;
+            &lt;/div&gt;
+        &lt;/body&gt;
+        &lt;/html&gt;
+    `;
+}
+
+const server = http.createServer((req, res) =&gt; {
+    if (req.url === &#x27;/&#x27;) {
+        res.writeHead(200, { &#x27;Content-Type&#x27;: &#x27;text/html&#x27; });
+        res.end(page(&#x27;Node.js Server&#x27;, &#x27;Welcome to Node.js!&#x27;, &#x27;This is a server-side application.&#x27;, req));
+    } else if (req.url === &#x27;/home&#x27;) {
+        res.writeHead(200, { &#x27;Content-Type&#x27;: &#x27;text/html&#x27; });
+        res.end(page(&#x27;Home&#x27;, &#x27;Home Page&#x27;, &#x27;Welcome to the Home page served by Node.js.&#x27;, req));
+    } else if (req.url === &#x27;/about&#x27;) {
+        res.writeHead(200, { &#x27;Content-Type&#x27;: &#x27;text/html&#x27; });
+        res.end(page(&#x27;About&#x27;, &#x27;About Page&#x27;, &#x27;This application was developed using the built-in http module of Node.js. (URK24CS1059)&#x27;, req));
+    } else {
+        res.writeHead(404, { &#x27;Content-Type&#x27;: &#x27;text/html&#x27; });
+        res.end(page(&#x27;404&#x27;, &#x27;404 - Page Not Found&#x27;, &#x27;The requested page does not exist.&#x27;, req));
+    }
+});
+
+server.listen(PORT, () =&gt; {
+    console.log(`Server running at http://localhost:${PORT}`);
+});
+</pre></div>
+</div>
+<script>
+const routes={'/':['Welcome to Node.js!','This is a server-side application.'],'/home':['Home Page','Welcome to the Home page served by Node.js.'],'/about':['About Page','This application was developed using the built-in http module of Node.js. (URK24CS1059)']};
+function show(u){const r=routes[u]||['404 - Page Not Found','The requested page does not exist.'];
+document.getElementById('out').innerHTML='<h1>'+r[0]+'</h1><p>'+r[1]+'</p><p>Request URL: '+u+'</p><p>Request Method: GET</p><p><i>Status: '+(routes[u]?'200 OK':'404 Not Found')+'</i></p>';}
+show('/');
+</script>
+</body></html>
